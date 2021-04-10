@@ -130,24 +130,39 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
     private void btnAnalizarArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnalizarArchivoActionPerformed
         // TODO add your handling code here:
-        String aux = "";
+        /*String aux = "";
         String texto = "";
-        File abreArchi;
         String ruta = "";
+        PrintWriter escribir;
+        
+        File documento = null;
+        FileReader archivo = null;
+        BufferedReader lee = null;
+
         try {
             //Llamamos al metodo que permite cargar la ventana del chooser
             JFileChooser file = new JFileChooser();
             file.setCurrentDirectory(new File("prueba"));
             file.showOpenDialog(this);
             //Abrimos el archivo seleccionado
-            abreArchi = file.getSelectedFile();
-            ruta = abreArchi.getPath();
+            documento = file.getSelectedFile();
+            ruta = documento.getPath();
+            System.out.println("ruta: "+ruta);
 
-            if (abreArchi != null) {
-                FileReader archivo = new FileReader(abreArchi);
-                System.out.println("FILEREADER: "+archivo);
-                BufferedReader lee = new BufferedReader(archivo);
-                System.out.println("BufferedReader: "+lee);
+            if (documento != null) {
+                //FileReader archivo = new FileReader(abreArchi);
+                documento = new File (ruta);
+                archivo = new FileReader(documento);
+                //System.out.println("FILEREADER: "+archivo);
+                lee = new BufferedReader(archivo);
+                //System.out.println("BufferedReader: "+lee);
+
+                String linea = lee.readLine();
+                System.out.println(linea);
+                
+                while(linea!=null)
+                   System.out.println(linea);
+                
 
                 while ((aux = lee.readLine()) != null) {
                     texto += aux + "\n";
@@ -156,8 +171,55 @@ public class FrmPrincipal extends javax.swing.JFrame {
             }
         } catch (IOException ex) {
             Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }finally{
+         // En el finally cerramos el fichero, para asegurarnos
+         // que se cierra tanto si todo va bien como si salta 
+         // una excepcion.
+            try{                    
+               if( null != archivo ){   
+                  archivo.close();     
+               }                  
+            }catch (Exception e2){ 
+               e2.printStackTrace();
+            }
+         }
+        //EPane.setText(texto);*/
+        
+        File archivo = null;
+        FileReader fr = null;
+        BufferedReader br = null;
+        
+            
+        try {
+           // Apertura del fichero y creacion de BufferedReader para poder
+           // hacer una lectura comoda (disponer del metodo readLine()).
+           // Directorio de prueba
+           String directorioRaiz = System.getProperty("user.dir");
+           archivo = new File (directorioRaiz+"\\helloworld.txt");
+           
+           fr = new FileReader (archivo);
+           br = new BufferedReader(fr);
+           
+
+           // Lectura del fichero
+           String linea = br.readLine();
+           while((linea)!=null)
+              System.out.println(linea);
         }
-        //EPane.setText(texto);
+        catch(Exception e){
+           e.printStackTrace();
+        }finally{
+           // En el finally cerramos el fichero, para asegurarnos
+           // que se cierra tanto si todo va bien como si salta 
+           // una excepcion.
+           try{                    
+              if( null != fr ){   
+                 fr.close();     
+              }                  
+           }catch (Exception e2){ 
+              e2.printStackTrace();
+           }
+        }
     }//GEN-LAST:event_btnAnalizarArchivoActionPerformed
 
     /**
