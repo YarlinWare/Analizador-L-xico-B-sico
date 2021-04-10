@@ -1,4 +1,3 @@
-
 package codigoLexicoBasico;
 
 import java.io.BufferedReader;
@@ -19,7 +18,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
     }
 
-   
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -97,7 +95,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         } catch (FileNotFoundException ex) {
             Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         try {
             Reader lector = new BufferedReader(new FileReader("archivo.txt"));
             LexicoBasico lexicobasico = new LexicoBasico(lector);
@@ -113,7 +111,9 @@ public class FrmPrincipal extends javax.swing.JFrame {
                     case ERROR:
                         resultado += "Simbolo no definido\n";
                         break;
-                    case Identificador: case Numero: case Reservadas: 
+                    case Identificador:
+                    case Numero:
+                    case Reservadas:
                         resultado += lexicobasico.lexemas + ": Es " + tokens + "\n";
                         break;
                     default:
@@ -130,105 +130,85 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
     private void btnAnalizarArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnalizarArchivoActionPerformed
         // TODO add your handling code here:
-        /*String aux = "";
-        String texto = "";
-        String ruta = "";
-        PrintWriter escribir;
         
+        PrintWriter escribir;
+        FileReader fr = null;
+        BufferedReader br = null;
         File documento = null;
-        FileReader archivo = null;
         BufferedReader lee = null;
+        String ruta = "";
 
         try {
-            //Llamamos al metodo que permite cargar la ventana del chooser
+            // Apertura del fichero y creacion de BufferedReader para poder
+            // hacer una lectura comoda (disponer del metodo readLine()).
+
+            // Directorio de prueba
+            //String directorioRaiz = System.getProperty("user.dir");
+            //archivo = new File(directorioRaiz + "\\helloworld.txt");
             JFileChooser file = new JFileChooser();
             file.setCurrentDirectory(new File("prueba"));
             file.showOpenDialog(this);
             //Abrimos el archivo seleccionado
             documento = file.getSelectedFile();
             ruta = documento.getPath();
+            
             System.out.println("ruta: "+ruta);
-
-            if (documento != null) {
-                //FileReader archivo = new FileReader(abreArchi);
-                documento = new File (ruta);
-                archivo = new FileReader(documento);
-                //System.out.println("FILEREADER: "+archivo);
-                lee = new BufferedReader(archivo);
-                //System.out.println("BufferedReader: "+lee);
-
-                String linea = lee.readLine();
-                System.out.println(linea);
-                
-                while(linea!=null)
-                   System.out.println(linea);
-                
-
-                while ((aux = lee.readLine()) != null) {
-                    texto += aux + "\n";
-                }
-                lee.close();
-            }
-        } catch (IOException ex) {
-            Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-        }finally{
-         // En el finally cerramos el fichero, para asegurarnos
-         // que se cierra tanto si todo va bien como si salta 
-         // una excepcion.
-            try{                    
-               if( null != archivo ){   
-                  archivo.close();     
-               }                  
-            }catch (Exception e2){ 
-               e2.printStackTrace();
-            }
-         }
-        //EPane.setText(texto);*/
-        
-        PrintWriter escribir;
-        File archivo = null;
-        FileReader fr = null;
-        BufferedReader br = null;
-              
             
-        try {
-           // Apertura del fichero y creacion de BufferedReader para poder
-           // hacer una lectura comoda (disponer del metodo readLine()).
-           
-           // Directorio de prueba
-            String directorioRaiz = System.getProperty("user.dir");
-            archivo = new File (directorioRaiz+"\\helloworld.txt");
-
-            fr = new FileReader (archivo);
+            fr = new FileReader(documento);
             br = new BufferedReader(fr);
-            
-            /*escribir = new PrintWriter(archivo);
-            escribir.print(txtEntrada.getText());
-            escribir.close();*/
 
+            
             // Lectura del fichero
             String linea = br.readLine();
             System.out.println(linea);
-            
+
             for (int i = 0; i <= br.read(); i++) {
                 System.out.println(br.readLine());
             }
-            /*while((linea)!=null)
-                 System.out.println(linea);*/
-        }
-        catch(Exception e){
-           e.printStackTrace();
-        }finally{
-           // En el finally cerramos el fichero, para asegurarnos
-           // que se cierra tanto si todo va bien como si salta 
-           // una excepcion.
-           try{                    
-              if( null != fr ){   
-                 fr.close();     
-              }                  
-           }catch (Exception e2){ 
-              e2.printStackTrace();
-           }
+            
+            try {
+                Reader lector = new BufferedReader(new FileReader(ruta));
+                LexicoBasico lexicobasico = new LexicoBasico(lector);
+                String resultado = "";
+                while (true) {
+                    Tokens tokens = lexicobasico.yylex();
+                    if (tokens == null) {
+                        resultado += "FIN";
+                        txtResultado.setText(resultado);
+                        return;
+                    }
+                    switch (tokens) {
+                        case ERROR:
+                            resultado += "Simbolo no definido\n";
+                            break;
+                        case Identificador:
+                        case Numero:
+                        case Reservadas:
+                            resultado += lexicobasico.lexemas + ": Es " + tokens + "\n";
+                            break;
+                        default:
+                            resultado += "Token: " + tokens + "\n";
+                            break;
+                    }
+                }
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            // En el finally cerramos el fichero, para asegurarnos
+            // que se cierra tanto si todo va bien como si salta 
+            // una excepcion.
+            try {
+                if (null != fr) {
+                    fr.close();
+                }
+            } catch (Exception e2) {
+                e2.printStackTrace();
+            }
         }
     }//GEN-LAST:event_btnAnalizarArchivoActionPerformed
 
