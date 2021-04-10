@@ -185,26 +185,36 @@ public class FrmPrincipal extends javax.swing.JFrame {
          }
         //EPane.setText(texto);*/
         
+        PrintWriter escribir;
         File archivo = null;
         FileReader fr = null;
         BufferedReader br = null;
-        
+              
             
         try {
            // Apertura del fichero y creacion de BufferedReader para poder
            // hacer una lectura comoda (disponer del metodo readLine()).
+           
            // Directorio de prueba
-           String directorioRaiz = System.getProperty("user.dir");
-           archivo = new File (directorioRaiz+"\\helloworld.txt");
-           
-           fr = new FileReader (archivo);
-           br = new BufferedReader(fr);
-           
+            String directorioRaiz = System.getProperty("user.dir");
+            archivo = new File (directorioRaiz+"\\helloworld.txt");
 
-           // Lectura del fichero
-           String linea = br.readLine();
-           while((linea)!=null)
-              System.out.println(linea);
+            fr = new FileReader (archivo);
+            br = new BufferedReader(fr);
+            
+            /*escribir = new PrintWriter(archivo);
+            escribir.print(txtEntrada.getText());
+            escribir.close();*/
+
+            // Lectura del fichero
+            String linea = br.readLine();
+            System.out.println(linea);
+            
+            for (int i = 0; i <= br.read(); i++) {
+                System.out.println(br.readLine());
+            }
+            /*while((linea)!=null)
+                 System.out.println(linea);*/
         }
         catch(Exception e){
            e.printStackTrace();
