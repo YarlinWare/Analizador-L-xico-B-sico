@@ -17,7 +17,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
     }
-
+    String rutaArchivo = "";
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -28,6 +28,10 @@ public class FrmPrincipal extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         txtResultado = new javax.swing.JTextArea();
         btnAnalizarArchivo = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        TxtCodigo = new javax.swing.JTextArea();
+        jBGuardar = new javax.swing.JButton();
+        jBGenerarArchvio = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -52,6 +56,24 @@ public class FrmPrincipal extends javax.swing.JFrame {
             }
         });
 
+        TxtCodigo.setColumns(20);
+        TxtCodigo.setRows(5);
+        jScrollPane2.setViewportView(TxtCodigo);
+
+        jBGuardar.setText("Guardar cambios");
+        jBGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBGuardarActionPerformed(evt);
+            }
+        });
+
+        jBGenerarArchvio.setText("Generar Archivo");
+        jBGenerarArchvio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBGenerarArchvioActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -59,13 +81,25 @@ public class FrmPrincipal extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(txtEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 342, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(txtEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(344, 344, 344)
+                                .addComponent(btnAnalizar, javax.swing.GroupLayout.DEFAULT_SIZE, 290, Short.MAX_VALUE))
+                            .addComponent(btnAnalizarArchivo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(btnAnalizar, javax.swing.GroupLayout.DEFAULT_SIZE, 121, Short.MAX_VALUE))
-                    .addComponent(btnAnalizarArchivo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 313, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(110, 110, 110)
+                .addComponent(jBGuardar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jBGenerarArchvio)
+                .addGap(121, 121, 121))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -74,19 +108,27 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnAnalizar)
                     .addComponent(txtEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
                 .addComponent(btnAnalizarArchivo)
                 .addGap(30, 30, 30)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 416, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 405, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jBGenerarArchvio)
+                    .addComponent(jBGuardar))
                 .addContainerGap())
         );
+
+        jBGuardar.getAccessibleContext().setAccessibleName("jBGuardar");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAnalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnalizarActionPerformed
         // TODO add your handling code here:
-        File archivo = new File("archivo.txt");
+        /*File archivo = new File("archivo.txt");
         PrintWriter escribir;
         try {
             escribir = new PrintWriter(archivo);
@@ -94,12 +136,13 @@ public class FrmPrincipal extends javax.swing.JFrame {
             escribir.close();
         } catch (FileNotFoundException ex) {
             Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }*/
 
         try {
-            Reader lector = new BufferedReader(new FileReader("archivo.txt"));
+            Reader lector = new BufferedReader(new FileReader(rutaArchivo));
             LexicoBasico lexicobasico = new LexicoBasico(lector);
             String resultado = "";
+            
             while (true) {
                 Tokens tokens = lexicobasico.yylex();
                 if (tokens == null) {
@@ -133,10 +176,8 @@ public class FrmPrincipal extends javax.swing.JFrame {
         
         PrintWriter escribir;
         FileReader fr = null;
-        BufferedReader br = null;
+        BufferedReader leer = null;
         File documento = null;
-        BufferedReader lee = null;
-        String ruta = "";
 
         try {
             // Apertura del fichero y creacion de BufferedReader para poder
@@ -150,24 +191,27 @@ public class FrmPrincipal extends javax.swing.JFrame {
             file.showOpenDialog(this);
             //Abrimos el archivo seleccionado
             documento = file.getSelectedFile();
-            ruta = documento.getPath();
+            rutaArchivo = documento.getPath();
             
-            System.out.println("ruta: "+ruta);
+            //Ruta del archivo
+            System.out.println("ruta: "+rutaArchivo);
             
             fr = new FileReader(documento);
-            br = new BufferedReader(fr);
-
+            leer = new BufferedReader(fr);            
             
             // Lectura del fichero
-            String linea = br.readLine();
+            String linea = leer.readLine();
             System.out.println(linea);
-
-            for (int i = 0; i <= br.read(); i++) {
-                System.out.println(br.readLine());
+            
+            // Imprimiendo código en textArea
+            while (linea != null) {
+                TxtCodigo.append(linea+"\n");  
+                linea = leer.readLine();                
+                System.out.println(linea+"\n");
             }
             
             try {
-                Reader lector = new BufferedReader(new FileReader(ruta));
+                Reader lector = new BufferedReader(new FileReader(rutaArchivo));
                 LexicoBasico lexicobasico = new LexicoBasico(lector);
                 String resultado = "";
                 while (true) {
@@ -212,6 +256,35 @@ public class FrmPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnAnalizarArchivoActionPerformed
 
+    private void jBGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBGuardarActionPerformed
+        // TODO add your handling code here:
+        File archivo = new File(rutaArchivo);
+        PrintWriter escribir;
+        try {
+            escribir = new PrintWriter(archivo);
+            escribir.print(TxtCodigo.getText());
+            escribir.close();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jBGuardarActionPerformed
+
+    private void jBGenerarArchvioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBGenerarArchvioActionPerformed
+        // TODO add your handling code here:
+        // Directorio de prueba
+        String directorioRaiz = System.getProperty("user.dir");
+        File archivo = new File(directorioRaiz + "\\Resultado_Analizador_Léxico.txt");
+        PrintWriter escribirResultado;
+        try {
+            escribirResultado = new PrintWriter(archivo);
+            escribirResultado.print("/****------ Análisis de resultados ------****/ \n\n\n");
+            escribirResultado.print(txtResultado.getText());
+            escribirResultado.close();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jBGenerarArchvioActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -248,10 +321,14 @@ public class FrmPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextArea TxtCodigo;
     private javax.swing.JButton btnAnalizar;
     private javax.swing.JButton btnAnalizarArchivo;
+    private javax.swing.JButton jBGenerarArchvio;
+    private javax.swing.JButton jBGuardar;
     private javax.swing.JFileChooser jFileChooser1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField txtEntrada;
     private javax.swing.JTextArea txtResultado;
     // End of variables declaration//GEN-END:variables
